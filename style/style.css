@@ -1,0 +1,9 @@
+.bg-dark{
+    background-color: rgba(110, 107, 107, 0);
+    border: solid;
+}
+
+.stacked{
+    position: fixed;
+    top:100px;
+}

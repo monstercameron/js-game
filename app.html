@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>game title</title>
+    <link rel="stylesheet" href="/style/style.css" />
+  </head>
+  <body onkeypress="">
+    <p>Image to use:</p>
+    <img
+      id="scream"
+      src="/images/sprite0.png"
+      alt="The Scream"
+      width="25"
+      height="25"
+    />
+    <img
+      id="saiyan"
+      src="/images/sprite1.jpg"
+      alt="The Scream"
+      width="25"
+      height="25"
+    />
+    <img
+      id="forest"
+      src="/images/bg0.jpg"
+      alt="The Scream"
+      width="25"
+      height="25"
+    />
+  </body>
+  <script src="/class/sprite.js"></script>
+  <script src="/class/Window.js"></script>
+  <script>
+    var x = 10;
+
+    var img = document.getElementById("scream");
+    var img2 = document.getElementById("saiyan");
+    var bg = document.getElementById("forest");
+
+    let myWindow = new Window();
+    myWindow
+      .setX(640)
+      .setY(480)
+      .setLayers(2)
+      .createCanvas()
+      .nameLayer("background", 0)
+      .nameLayer("foreground", 1)
+      .addLayerBgList("background", [bg]);
+
+    console.log(myWindow.layers);
+
+    var canv = myWindow.getCanvas(myWindow.getLayerIndexByName("background"));
+    var canv2 = myWindow.getCanvas(myWindow.getLayerIndexByName("foreground"));
+    console.log(canv);
+
+    let sprite = new Sprite("hero", myWindow)
+      .setX(0)
+      .setY(150)
+      .setHeight(100)
+      .setWidth(100)
+      .setAngle(0)
+      .setImage(img)
+      .setContext(canv);
+
+    let sprite2 = new Sprite("superhero", myWindow)
+      .setX(0)
+      .setY(50)
+      .setHeight(100)
+      .setWidth(100)
+      .setAngle(0)
+      .setImage(img2)
+      .setContext(canv2);
+
+    myWindow.addSprite(sprite).addSprite(sprite2);
+
+    //console.log(myWindow.spriteList);
+    var sprAng = 0;
+    var sprX = 50;
+
+    window.onkeydown = function(e) {
+      var key = e.keyCode ? e.keyCode : e.which;
+
+      if (key == 38) {
+        //up
+        sprX += 10;
+      } else if (key == 40) {
+        //down
+        sprX -= 10;
+      } else if (key == 37) {
+        //left
+        sprAng += 10;
+      } else if (key == 39) {
+        //right
+        sprAng -= 10;
+      }
+
+      sprite.setAngle(sprAng);
+      sprite2.setAngle(sprAng);
+
+      sprite.setX(sprX);
+      sprite2.setX(sprX);
+
+      //console.log(sprite.getX() + " | " + sprite2.getX());
+      //setTimeout(myWindow.render(), 16);
+      myWindow.render();
+    };
+
+    myWindow.render();
+  </script>
+</html>
