@@ -103,7 +103,7 @@ class Sprite {
   moveTo(x, y, angle, scale, duration) {
     //chaining animations
     this.animBuffer.push({ x: x, y: y, angle: angle, duration: duration });
-    console.log(this.animBuffer);
+    //console.log(this.animBuffer);
     // console.error(this.target);
     this.shouldMove = true;
     this.newAnim = true;
@@ -124,10 +124,10 @@ class Sprite {
     }
 
 
-    console.log('old y:' + this.old.y + ' | this y:' + this.y + ' | target y:' + this.target.y + ' | with gap :' + this.gapy);
-    console.log('old x:' + this.old.x + ' | this x:' + this.x + ' | target x:' + this.target.x + ' | with gap :' + this.gapx + ' | should move:' + this.shouldMove)
-    console.log('Angle:' + this.angle + ' | target Angle:' + this.target.angle);
-    console.log('animBuffer length:' + this.animBuffer.length);
+    //console.log('old y:' + this.old.y + ' | this y:' + this.y + ' | target y:' + this.target.y + ' | with gap :' + this.gapy);
+    //console.log('old x:' + this.old.x + ' | this x:' + this.x + ' | target x:' + this.target.x + ' | with gap :' + this.gapx + ' | should move:' + this.shouldMove)
+    //console.log('Angle:' + this.angle + ' | target Angle:' + this.target.angle);
+    //console.log('animBuffer length:' + this.animBuffer.length);
 
 
     //checks the x axis
@@ -140,7 +140,7 @@ class Sprite {
     }
     //checks the y axis
     if (this.y < this.target.y) {
-      console.log('is moving right');
+      //console.log('is moving right');
       this.y += this.gapy;
     } else if (this.y > this.target.y) {
       console.log('is moving left');
@@ -154,7 +154,7 @@ class Sprite {
       else
         this.angle -= this.gapangle;
     } else if (this.angle > this.target.angle) {
-      console.log('is moving left');
+      //console.log('is moving left');
       if (this.target.angle > 0)
         this.angle -= this.gapangle;
       else
@@ -174,7 +174,7 @@ class Sprite {
       this.inPosAngle = true;
     }
 
-    console.log('posx:' + this.inPosX + ' | posy:' + this.inPosY + ' | posangle:' + this.inPosAngle);
+    //console.log('posx:' + this.inPosX + ' | posy:' + this.inPosY + ' | posangle:' + this.inPosAngle);
     if (this.inPosX && this.inPosY && this.inPosAngle) {// && this.inPosScale){
       this.newAnim = true;
       this.animBuffer.shift();
@@ -263,14 +263,15 @@ class Sprite {
       .moveTo(this.x, this.y, 0, 0, 2.5);
   }
   moveHoriz(count) {
-    if (this.animBuffer.length < 1)
-      if (count > 0)
-        this.moveTo(this.x + count, this.y, 7.5, 0, .33).moveTo(this.x + count + 1, this.y, -7.5, 0, .1);
+    // if (!this.x >= 480) {
+      if (this.animBuffer.length < 1)
+        if (count > 0)
+          this.moveTo(this.x + count, this.y, 277.5, 0, .33).moveTo(this.x + count + 1, this.y, -7.5, 0, .1);
+        else
+          this.moveTo(this.x + count, this.y, -7.5, 0, .33).moveTo(this.x + count + 1, this.y, 270, 0, .1);
       else
-        this.moveTo(this.x + count, this.y, -7.5, 0, .33).moveTo(this.x + count + 1, this.y, 7.5, 0, .1);
-
-    else
-      console.error('blocked becuase buffer is too deep');
+        console.error('blocked becuase buffer is too deep');
+    // }
   }
   moveVert(count) {
     if (this.animBuffer.length < 1)
@@ -278,5 +279,19 @@ class Sprite {
     else
       console.error('blocked becuase buffer is too deep');
   }
+  checkCollision(layer) {
+    var other = layer.getSpawn().sprite;
 
+    if (Math.abs(this.x - other.getX()) < this.width) {
+      if (Math.abs(this.y - other.getY()) < this.height) {
+        console.error('collision!');
+        // if (this.animBuffer.length < 1) {
+        //   this.moveTo(this.x, this.y, 0, 2, .25);
+        // }
+        //layer.spriteList.shift();
+        //crash.play();
+      }
+    }
+    return this;
+  }
 }

@@ -2,6 +2,8 @@ class Window {
   constructor() {
     this.layerList = [];
     this.parent = document.querySelector('body');
+    this.bgScrolla = -470;
+    this.bgScrollb = 0;
     return this;
   }
   setFps(fps){
@@ -106,19 +108,40 @@ class Window {
         for (let a = 0; a < this.layerList[index].getBackground().getImages().length; a++) {
 
             //console.log(this.layerList[index].getBackground().getImages()[a]);
-            ctx.drawImage(this.layerList[index].getBackground().getImages()[a], 0, 0, this.x, this.y);
+            ctx.drawImage(this.layerList[index].getBackground().getImages()[a], 0, this.bgScrolla, this.x, this.y);
+            ctx.drawImage(this.layerList[index].getBackground().getImages()[a], 0, this.bgScrollb, this.x, this.y);
 
         }
       }
 
+      if(this.layerList[index].getName() == 'hud'){
+        ctx.font = "30px Arial";
+        ctx.fillText("Hello World", 10, 50)
+      }
 
       //ctx.restore();
 
     }
+
+
+    var speed = 4;
+
+    //console.log('bg scrolla:'+this.bgScrolla);
+    if(this.bgScrolla < 470){
+      this.bgScrolla += speed;
+    }else if(this.bgScrolla >= 470){
+      this.bgScrolla = -470;
+    }
+    if(this.bgScrollb < 470){
+      this.bgScrollb += speed;
+    }else if(this.bgScrollb >= 470){
+      this.bgScrollb = -470;
+    }
+
   }
   update() {
     if (this.spriteList.length < 1) {
-      console.error("No sprites to draw, add sprites to the window");
+      //console.error("No sprites to draw, add sprites to the window");
     } else {
       for (let index = 0; index < this.spriteList.length; index++) {
         // this.spriteList[index].drawImage();

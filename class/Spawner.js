@@ -1,33 +1,42 @@
 class Spawner {
     constructor(parent, layer) {
+        console.info('Spawning rand');
         this.parent = parent;
         this.layer = layer;
-        this.imageList = [];
         return this;
+    }
+    setParent(parent) {
+        this.parent = parent;
+        return this;
+    }
+    getParent() {
+        return this.parent;
     }
     addImage(image) {
-        this.imageList.push(image);
+        this.image = image;
         return this;
     }
-    spawn() {
+    getImage(){
+        return this.image;
+    }
+    spawn(posx, posy) {
 
         var layer = this.parent.getLayerByName(this.layer);
-        var randPos = Math.floor((Math.random() * 4) + 1);
-        let sprite = new Sprite("hero", this.parent)
-            .setX(100)
-            .setY(100)
-            .setHeight(50)
-            .setWidth(50)
-            .setAngle(0)
-            .setScale(2)
+        this.sprite = new Sprite("hero", this.parent)
+            .setY(posy)
+            .setX(posx)
+            .setHeight(150)
+            .setWidth(80)
+            .setAngle(90)
+            .setScale(1)
             .setImage(img)
             .setContext(layer)
-            .setX(100)
-            .moveTo(100, this.parent.y, 0 ,0 ,1)
+            .moveTo(posx, this.parent.y, 0, 0, 2)
             ;
+        //console.error(this.sprite.getX());
         this.parent
             .getLayerByName('enemy')
-            .addSprite(sprite);
+            .addSprite(this.sprite);
 
         return this;
     }
