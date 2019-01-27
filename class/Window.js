@@ -1,10 +1,15 @@
 class Window {
   constructor() {
-    this.layerDict = {};
-    this.layerBgList = {};
     this.layerList = [];
-    this.spriteList = [];
+    this.parent = document.querySelector('body');
     return this;
+  }
+  setFps(fps){
+    this.fps = fps;
+    return this;
+  }
+  getFps(){
+    return this.fps;
   }
   setX(x) {
     this.x = x;
@@ -14,56 +19,42 @@ class Window {
     this.y = y;
     return this;
   }
-  setLayers(count) {
-    this.layers = count;
+  addLayers(name) {
+    let layer = new Layer(this, name);
+    this.layerList.push(layer);
     return this;
   }
   getLayery() {
     return this.layers;
   }
-  nameLayer(name, layer) {
-    this.layerDict[name] = layer;
+  nameLayer(pos, name) {
+    for (let index = 0; index < this.LayerList.length; index++) {
+      if (this.layerList[index].index == pos) {
+        console.log('matched');
+        this.layerList[index].name = name;
+      }
+    }
     return this;
   }
-  getLayerIndexByName(name) {
-    return this.layerDict[name];
-  }
-  getLayerNameByCount(count) {
-    return Object.keys(this.layerDict)[count];
-  }
-  addLayerBgList(layerName, bgList) {
-    this.layerBgList[layerName] = bgList;
-    return this;
-  }
-  getCanvas(count) {
+  insertCanvas() {
     for (let index = 0; index < this.layerList.length; index++) {
-      if (this.layerList[index].id == "layer:" + count) {
+      this.parent.append(this.layerList[index].getCanvas());
+    }
+  }
+  getLayerByIndex(index) {
+    return this.LayerList[index];
+  }
+  getLayerByName(name) {
+    for (let index = 0; index < this.layerList.length; index++) {
+
+      //console.log(this.layerList[index]);
+
+      if (this.layerList[index].getName() == name) {
         return this.layerList[index];
       }
     }
+    console.error("Layer " + name + " Doesn't Exist");
     return null;
-  }
-  createCanvas() {
-    for (let index = 0; index < this.layers; index++) {
-      //selecting body element
-      let body = document.querySelector("body");
-      //creating new canvas element
-      let canvas = document.createElement("canvas");
-      canvas.id = "layer:" + index;
-      canvas.width = this.x;
-      canvas.height = this.y;
-      canvas.classList.add("bg-dark", "stacked");
-      //saving to layer list
-      this.layerList.push(canvas);
-      //appending canvas into html body element
-      body.prepend(canvas);
-    }
-
-    return this;
-  }
-  addSprite(sprite) {
-    this.spriteList.push(sprite);
-    return this;
   }
   render() {
     for (let index = 0; index < this.layerList.length; index++) {
@@ -72,10 +63,11 @@ class Window {
       //   ctx.save();
 
       var currentlayer = this.getLayerNameByCount(index);
-      //console.log(currentlayer);
+      //console.log(this.layerBgList);
 
-      //ctx.drawImage(this.layerBgList[currentlayer][0], 0, 0, this.x, this.y);
-      
+      if (typeof this.layerBgList[currentlayer] !== 'undefined')
+        ctx.drawImage(this.layerBgList[currentlayer][0], 0, 0, this.x, this.y);
+
       for (let index = 0; index < this.spriteList.length; index++) {
         // this.spriteList[index].drawImage();
 
@@ -88,6 +80,41 @@ class Window {
       }
     }
     return this;
+  }
+  render2() {
+    //assuming back to front?
+    //traversing layers
+    for (let index = 0; index < this.layerList.length; index++) {
+
+      //get layer and context
+      var ctx = this.layerList[index].getContext();
+      ctx.clearRect(0, 0, this.x, this.y);
+      ctx.save();
+
+
+      //console.log('Index: ' + index);
+      //console.log(this.layerList[index]);
+
+      //traversing layer's sprite list
+      for (let a = 0; a < this.layerList[index].getSprites().length; a++) {
+        this.layerList[index].getSprites()[a].draw();
+      }
+
+      //traversing the bg objs list
+      //checking is list is not undefined
+      if (typeof this.layerList[index].getBackground() !== 'undefined') {
+        for (let a = 0; a < this.layerList[index].getBackground().getImages().length; a++) {
+
+            //console.log(this.layerList[index].getBackground().getImages()[a]);
+            ctx.drawImage(this.layerList[index].getBackground().getImages()[a], 0, 0, this.x, this.y);
+
+        }
+      }
+
+
+      //ctx.restore();
+
+    }
   }
   update() {
     if (this.spriteList.length < 1) {

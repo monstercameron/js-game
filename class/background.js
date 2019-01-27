@@ -1,6 +1,5 @@
 class Background{
-    constructor(ctx){
-        this.ctx = ctx;
+    constructor(){
         this.imgList = [];
         return this;
     }
@@ -10,5 +9,16 @@ class Background{
     }
     getImages(){
         return this.imgList;
+    }
+    setContext(ctx) {
+      this.ctx = ctx.getContext();
+      return this;
+    }
+    getContext() {
+      return this.ctx;
+    }
+    draw(){
+        this.ctx.drawImage(0,0,100,100);
+        return this.setContext;
     }
 }
