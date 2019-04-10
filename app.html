@@ -81,7 +81,7 @@
     // .addSprite(sprite)
     .createSpawner('enemy', img)
     .getSpawn()
-    .spawn(100,0)
+    .spawn(100, 0)
     .getParent()
     .getLayerByName('hero')
     .addSprite(sprite2)
@@ -136,7 +136,7 @@
   function test() {
     myWindow.render2();
     myWindow.getLayerByName('enemy').levelSpawnerLogic()
-    sprite2.checkCollision(myWindow.getLayerByName('enemy')); 
+    sprite2.checkCollision(myWindow.getLayerByName('enemy'));
   }
 
   //myWindow.getLayerByName('enemy').getSpawn().spawn();

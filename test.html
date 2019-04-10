@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Test Sprite</title>
+    <link rel="stylesheet" href="/style/style.css" />
+    <link rel="stylesheet" href="/style/bulma.css" />
+    <script src="/class/functions.js"></script>
+    <script src="/class-new/Base.js"></script>
+    <script src="/class-new/window.js"></script>
+    <script src="/class-new/ImageBuffer.js"></script>
+    <script src="/class-new/Engine.js"></script>
+</head>
+
+<body>
+    <img id="saiyan" src="/images/sprite1.png" alt="The Scream" width="25" height="25" />
+
+    
+
+    <script>
+
+        //config object/json
+        const config = {
+            window: {
+                window: new Window('main'),
+                title: 'Sprite Test',
+                style: ['tile']
+            },
+            selector: 'body'
+        };
+
+        // init the engine
+        let myApp = new Engine('sprite test').start(config);
+        myApp.log();
+
+    </script>
+
+</body>
+
+</html>

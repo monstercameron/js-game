@@ -1,18 +1,10 @@
-javascript games
+2D Javascript Game Engine
 
-
-sprite
-layer
-background
-window
-
-sprite
--
-
-layer
--add backgroud
--add sprite(s)
-
-backgrond
--add image(s)
--scroll [speed, loop]
+Engine  - Allocates tasks and manages timing
+Buffer  - stores the image data to be displayed
+Window  - scales and displays the buffer
+sprite  - interactive image
+image   - non interactive image
+sound   - sound and sound controls
+controller - assigns inputs
+spawner - spawn objects
